@@ -23,6 +23,50 @@ export default class MathsController extends Controller {
             contenue += "</p>"
 
             this.HttpContext.response.HTML(contenue);
+
+            if (params["op"] === null || params["op"] === undefined){ //no 'op' param
+                this.HttpContext.response.JSON({error: "'op' parameter is missing"});
+            }
+            else if (params["op"] === "!" || params["op"] === "p" || params["op"] === "np"){
+                if (params.length > 2){ //max 2 params pour ces opérations 
+                    this.HttpContext.response.JSON({error: "too many parameters"});
+                }
+                else if (params["n"] === null || params["n"] === undefined){ //no 'n' param
+                    this.HttpContext.response.JSON({error: "n parameter is missing"});
+                }
+                else{
+                    //valider 'n'
+                    if (isNaN(params["n"])){
+                        this.HttpContext.response.JSON({error: "n parameter is not a number"});
+                    }
+                    else if (!Number.isInteger(params["n"]) || params["n"] <= 0){
+                        this.HttpContext.response.JSON({error: "n must be an integer > 0"});
+                    }
+                    else{ //tout est valide
+                        this.HttpContext.response.notImplemented("return");
+                    }
+                }
+            }
+            else{
+                if (params.length > 3){ //max 3 params pour les autres opérations
+                    this.HttpContext.response.JSON({error: "too many parameters"});
+                }
+                else if (params["x"] === null || params["x"] === undefined){ //no 'x' param
+                    this.HttpContext.response.JSON({error: "x parameter is missing"});
+                }
+                else if (isNaN(params["x"])){ //valider x
+                    this.HttpContext.response.JSON({error: "x parameter is not a number"});
+                }
+                else if (params["y"] === null || params["y"] === undefined){ //no 'y' param
+                    this.HttpContext.response.JSON({error: "y parameter is missing"});
+                }
+                else if (isNaN(params["y"])){ //valider y
+                    this.HttpContext.response.JSON({error: "y parameter is not a number"});
+                }
+                else{ //tout est valide
+                    this.HttpContext.response.notImplemented("return");
+                }
+            }
         }
         this.HttpContext.response.notImplemented("Just for return");
     }
