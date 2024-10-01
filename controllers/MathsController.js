@@ -1,6 +1,7 @@
 import Repository from '../models/repository.js';
 import Model from '../models/model.js';
 import Controller from './Controller.js';
+import { factorial, isPrime, findPrime } from '../mathUtilities.js';
 
 export default class MathsController extends Controller {
     constructor(HttpContext) {
@@ -23,12 +24,13 @@ export default class MathsController extends Controller {
             contenue += "</p>"
 
             this.HttpContext.response.HTML(contenue);
-
+        }
+        else{
             if (params["op"] === null || params["op"] === undefined){ //no 'op' param
                 this.HttpContext.response.JSON({error: "'op' parameter is missing"});
             }
             else if (params["op"] === "!" || params["op"] === "p" || params["op"] === "np"){
-                if (params.length > 2){ //max 2 params pour ces opérations 
+                if (params.length > 2){ //max 2 params pour ces opérations (op, n)
                     this.HttpContext.response.JSON({error: "too many parameters"});
                 }
                 else if (params["n"] === null || params["n"] === undefined){ //no 'n' param
@@ -43,12 +45,20 @@ export default class MathsController extends Controller {
                         this.HttpContext.response.JSON({error: "n must be an integer > 0"});
                     }
                     else{ //tout est valide
-                        this.HttpContext.response.notImplemented("return");
+                        if (params["op"] === "!"){
+                            this.HttpContext.response.JSON({value: factorial(params["n"])});
+                        }
+                        else if (params["op"] === "p"){
+                            this.HttpContext.response.JSON({value: isPrime(params["n"])});
+                        }
+                        else{ //np
+                            this.HttpContext.response.JSON({value: findPrime(params["n"])});
+                        }
                     }
                 }
             }
-            else{
-                if (params.length > 3){ //max 3 params pour les autres opérations
+            else if (params["op"] === " " /* + */ || params["op"] === "-" || params["op"] === "*" || params["op"] === "/" || params["op"] === "%"){
+                if (params.length > 3){ //max 3 params pour les autres opérations (op, x, y)
                     this.HttpContext.response.JSON({error: "too many parameters"});
                 }
                 else if (params["x"] === null || params["x"] === undefined){ //no 'x' param
@@ -64,11 +74,27 @@ export default class MathsController extends Controller {
                     this.HttpContext.response.JSON({error: "y parameter is not a number"});
                 }
                 else{ //tout est valide
-                    this.HttpContext.response.notImplemented("return");
+                    if (params["op"] === " "){ //+
+                        this.HttpContext.response.JSON({value: params["x"] + params["y"]});
+                    }
+                    else if (params["op"] === "-"){ //+
+                        this.HttpContext.response.JSON({value: params["x"] - params["y"]});
+                    }
+                    else if (params["op"] === "*"){ //+
+                        this.HttpContext.response.JSON({value: params["x"] * params["y"]});
+                    }
+                    else if (params["op"] === "/"){ //+
+                        this.HttpContext.response.JSON({value: params["x"] / params["y"]});
+                    }
+                    else{ //%
+                        this.HttpContext.response.JSON({value: params["x"] % params["y"]});
+                    }
                 }
             }
+            else{ //op param invalid
+                this.HttpContext.response.JSON({value: "'op' parameter invalid"});
+            }
         }
-        this.HttpContext.response.notImplemented("Just for return");
     }
     post(){
         this.HttpContext.response.notImplemented("POST is not implemented");
