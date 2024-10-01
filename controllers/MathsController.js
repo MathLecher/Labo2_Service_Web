@@ -9,7 +9,11 @@ export default class MathsController extends Controller {
     }
     get(){
         let params =  this.HttpContext.path.params
-        if(params /*Trouver une facon de vérifier params */ ){
+        if(params == null || params == undefined){
+            params = {};
+        }
+        console.log(Object.keys(params).length);
+        if(Object.keys(params).length == 0){
             let contenue = "<h1> GET : Maths endpoint <br> List of possible query strings : </h1>";
             contenue += "<br> <hr> <br>";
             contenue += "<p>"
