@@ -9,7 +9,7 @@ export default class MathsController extends Controller {
     }
     get(){
         let params =  this.HttpContext.path.params
-        if(params /*Trouver une facon de vérifier params */ ){
+        if(false /*Trouver une facon de vérifier params */ ){
             let contenue = "<h1> GET : Maths endpoint <br> List of possible query strings : </h1>";
             contenue += "<br> <hr> <br>";
             contenue += "<p>"
@@ -30,7 +30,7 @@ export default class MathsController extends Controller {
                 this.HttpContext.response.JSON({error: "'op' parameter is missing"});
             }
             else if (params["op"] === "!" || params["op"] === "p" || params["op"] === "np"){
-                if (params.length > 2){ //max 2 params pour ces opérations (op, n)
+                if (Object.keys(params).length > 2){ //max 2 params pour ces opérations (op, n)
                     this.HttpContext.response.JSON({error: "too many parameters"});
                 }
                 else if (params["n"] === null || params["n"] === undefined){ //no 'n' param
@@ -41,24 +41,24 @@ export default class MathsController extends Controller {
                     if (isNaN(params["n"])){
                         this.HttpContext.response.JSON({error: "n parameter is not a number"});
                     }
-                    else if (!Number.isInteger(params["n"]) || params["n"] <= 0){
+                    else if (!Number.isInteger(Number(params["n"])) || Number(params["n"]) <= 0){
                         this.HttpContext.response.JSON({error: "n must be an integer > 0"});
                     }
                     else{ //tout est valide
                         if (params["op"] === "!"){
-                            this.HttpContext.response.JSON({value: factorial(params["n"])});
+                            this.HttpContext.response.JSON({value: factorial(Number(params["n"]))});
                         }
                         else if (params["op"] === "p"){
-                            this.HttpContext.response.JSON({value: isPrime(params["n"])});
+                            this.HttpContext.response.JSON({value: isPrime(Number(params["n"]))});
                         }
                         else{ //np
-                            this.HttpContext.response.JSON({value: findPrime(params["n"])});
+                            this.HttpContext.response.JSON({value: findPrime(Number(params["n"]))});
                         }
                     }
                 }
             }
             else if (params["op"] === " " /* + */ || params["op"] === "-" || params["op"] === "*" || params["op"] === "/" || params["op"] === "%"){
-                if (params.length > 3){ //max 3 params pour les autres opérations (op, x, y)
+                if (Object.keys(params).length > 3){ //max 3 params pour les autres opérations (op, x, y)
                     this.HttpContext.response.JSON({error: "too many parameters"});
                 }
                 else if (params["x"] === null || params["x"] === undefined){ //no 'x' param
@@ -75,19 +75,19 @@ export default class MathsController extends Controller {
                 }
                 else{ //tout est valide
                     if (params["op"] === " "){ //+
-                        this.HttpContext.response.JSON({value: params["x"] + params["y"]});
+                        this.HttpContext.response.JSON({value: Number(params["x"]) + Number(params["y"])});
                     }
                     else if (params["op"] === "-"){ //+
-                        this.HttpContext.response.JSON({value: params["x"] - params["y"]});
+                        this.HttpContext.response.JSON({value: Number(params["x"]) - Number(params["y"])});
                     }
                     else if (params["op"] === "*"){ //+
-                        this.HttpContext.response.JSON({value: params["x"] * params["y"]});
+                        this.HttpContext.response.JSON({value: Number(params["x"]) * Number(params["y"])});
                     }
                     else if (params["op"] === "/"){ //+
-                        this.HttpContext.response.JSON({value: params["x"] / params["y"]});
+                        this.HttpContext.response.JSON({value: Number(params["x"]) / Number(params["y"])});
                     }
                     else{ //%
-                        this.HttpContext.response.JSON({value: params["x"] % params["y"]});
+                        this.HttpContext.response.JSON({value: Number(params["x"]) % Number(params["y"])});
                     }
                 }
             }
