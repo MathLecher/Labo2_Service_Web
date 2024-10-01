@@ -17,9 +17,9 @@
                 <!-- Header du test -->
                 <fieldset>
                     <legend>Url du service</legend>
-                    <input type="text" id="url" name="url" placeholder="https:votre-serveur.glitch.me/">
+                    <input type="text" id="url" name="url" placeholder="https:votre-serveur.glitch.me/" value="http://localhost:5000">
                     <label for="url">/api/maths</label>
-                    <input type="submit" value="Démarer le test">
+                    <input type="button" id="start" value="Démarer le test">
                     <input type="button" value="Aide">
                 </fieldset>
                 <!-- Test -->
@@ -39,8 +39,10 @@
             </form>
         </div>
     </div>
-    
-    <script src="js/Maths-Help-Page.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script src="js/Maths-Help-Page.js" type="module"></script>
 
 </body>
 

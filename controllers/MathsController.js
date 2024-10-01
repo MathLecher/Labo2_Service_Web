@@ -12,7 +12,6 @@ export default class MathsController extends Controller {
         if(params == null || params == undefined){
             params = {};
         }
-        console.log(Object.keys(params).length);
         if(Object.keys(params).length == 0){
             let contenue = "<h1> GET : Maths endpoint <br> List of possible query strings : </h1>";
             contenue += "<br> <hr> <br>";
@@ -46,7 +45,7 @@ export default class MathsController extends Controller {
                         this.HttpContext.response.JSON({error: "n parameter is not a number"});
                     }
                     else if (!Number.isInteger(Number(params["n"])) || Number(params["n"]) <= 0){
-                        this.HttpContext.response.JSON({error: "n must be an integer > 0"});
+                        this.HttpContext.response.JSON({error: "n parameter must be an integer > 0"});
                     }
                     else{ //tout est valide
                         if (params["op"] === "!"){
@@ -88,6 +87,7 @@ export default class MathsController extends Controller {
                         this.HttpContext.response.JSON({value: Number(params["x"]) * Number(params["y"])});
                     }
                     else if (params["op"] === "/"){ //+
+                        console.log( Number(params["x"]) / Number(params["y"]))
                         this.HttpContext.response.JSON({value: Number(params["x"]) / Number(params["y"])});
                     }
                     else{ //%

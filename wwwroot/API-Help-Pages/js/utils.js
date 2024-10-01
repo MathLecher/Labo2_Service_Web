@@ -1,8 +1,9 @@
-export async function webAPI_getMaths(host, querystring){
+export async function webAPI_getMaths(host, querystring, callback){
     $.get(
         host + querystring,
         function(data) {
-            return data;
+            console.log(data);
+            callback(data);
         }
     )
 }
