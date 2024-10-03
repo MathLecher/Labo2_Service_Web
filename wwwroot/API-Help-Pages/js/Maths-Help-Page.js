@@ -2,27 +2,31 @@
 import { webAPI_getMaths } from "./utils.js";
 
 let url = "";
+let nbErreur;
 $("#start").on("click", ()=>{
     url = $("#url").val()+"/api/maths";
     Init_test();
 });
-function Init_test() {
+async function Init_test() {
     $("#content").html("");
-    renderTests();
+    nbErreur = 0
+    await renderTests().then(a=>{
+        renderVerdict();
+    });
 }
 async function renderTests() {
     await renderTest(0,"?op=+&x=-111&y=-244", -355);
     await renderTest(1,"?op=-&x=1&y=abc", "y parameter is not a number");
     await renderTest(2,"?n=a&op=p", "n parameter is not a number");
-    await renderTest(3,"?op=-&x=111&y=244",-133);
+    await renderTest(3,"?op=-&x=111&y=244",-1323);
     await renderTest(4,"?op=*&x=11.56&y=244.12345", 2822.067082);
     await renderTest(5,"?op=/&x=99&y=11.06", 8.95117540687161);
     await renderTest(6,"?op=/&x=99&y=0", Infinity);
-    await renderTest(7,"?op=/&x=0&y=0", NaN);
+    await renderTest(7,"?op=/&x=0&y=0", "NaN");
     await renderTest(8,"?op=%&x=5&y=5", 0);
     await renderTest(9,"?op=%&x=100&y=13",9);
-    await renderTest(10,"?op=%&x=100&y=0", NaN);
-    await renderTest(11,"?op=%&x=0&y=0", NaN);
+    await renderTest(10,"?op=%&x=100&y=0", "NaN");
+    await renderTest(11,"?op=%&x=0&y=0", "NaN");
     await renderTest(12,"?n=0&op=!", "n parameter must be an integer > 0");
     await renderTest(13,"?n=0&op=p", "n parameter must be an integer > 0");
     await renderTest(14,"?n=1&op=p", false);
@@ -42,9 +46,6 @@ async function renderTests() {
     await renderTest(28, "?z=0", "'op' parameter is missing");
     await renderTest(29, "?n=-5&op=!", "n parameter must be an integer > 0");
     await renderTest(30, "?x=", "'op' parameter is missing"); 
-
-    
-
 }
 async function renderTest(id, queryString, valueServeur) {
     let statusReponse = "";
@@ -56,6 +57,8 @@ async function renderTest(id, queryString, valueServeur) {
         }
         else{
             statusReponse = "Error";
+            nbErreur += 1;
+            console.log(nbErreur);
         }
         $("#content").append(`
          <tr test_id=${id}">
@@ -65,4 +68,13 @@ async function renderTest(id, queryString, valueServeur) {
          </tr>           
         `);
     })
+}
+function renderVerdict(){
+    console.log(nbErreur);
+    if(nbErreur <= 0){
+        $("#verdict").html("<p>Bravo !!! Aucun problèmes </p>")
+    }
+    else{
+        $("#verdict").html(`<p>Ishhhhhh !!! Il y a ${nbErreur} erreur(s) </p>`)
+    }
 }

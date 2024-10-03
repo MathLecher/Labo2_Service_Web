@@ -78,20 +78,19 @@ export default class MathsController extends Controller {
                 }
                 else{ //tout est valide
                     if (params["op"] === " "){ //+
-                        this.HttpContext.response.JSON({value: Number(params["x"]) + Number(params["y"])});
+                        this.HttpContext.response.JSON({value: Number(params["x"]) + Number(params["y"])+""});
                     }
                     else if (params["op"] === "-"){ //+
-                        this.HttpContext.response.JSON({value: Number(params["x"]) - Number(params["y"])});
+                        this.HttpContext.response.JSON({value: Number(params["x"]) - Number(params["y"])+""});
                     }
                     else if (params["op"] === "*"){ //+
-                        this.HttpContext.response.JSON({value: Number(params["x"]) * Number(params["y"])});
+                        this.HttpContext.response.JSON({value: Number(params["x"]) * Number(params["y"])+""});
                     }
                     else if (params["op"] === "/"){ //+
-                        console.log( Number(params["x"]) / Number(params["y"]))
-                        this.HttpContext.response.JSON({value: Number(params["x"]) / Number(params["y"])});
+                        this.HttpContext.response.JSON({value: Number(params["x"]) / Number(params["y"])+""});
                     }
                     else{ //%
-                        this.HttpContext.response.JSON({value: Number(params["x"]) % Number(params["y"])});
+                        this.HttpContext.response.JSON({value: Number(params["x"]) % Number(params["y"])+""});
                     }
                 }
             }
