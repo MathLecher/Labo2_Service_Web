@@ -8,6 +8,7 @@ $("#start").on("click", ()=>{
     Init_test();
 });
 async function Init_test() {
+    $("#content").html("");
     await renderTests((res)=>{renderVerdict(res);})
 }
 async function renderTests(callback) {
@@ -57,8 +58,6 @@ async function renderTest(id, queryString, valueServeur, callback) {
         }
         else{
             statusReponse = "Error";
-            //nbErreur += 1;
-            console.log(nbErreur);
         }
         $("#content").append(`
          <tr test_id=${id}">
@@ -71,7 +70,6 @@ async function renderTest(id, queryString, valueServeur, callback) {
     })
 }
 function renderVerdict(nbErreur){
-    console.log(nbErreur);
     if(nbErreur <= 0){
         $("#verdict").html("<p>Bravo !!! Aucun problèmes </p>")
     }

@@ -13,5 +13,5 @@ const server = createServer(async (req, res) => {
                 httpContext.response.notFound('this end point does not exist...');
 
 });
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
