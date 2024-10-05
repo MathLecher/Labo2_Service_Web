@@ -9,6 +9,7 @@ $("#start").on("click", ()=>{
 });
 async function Init_test() {
     $("#content").html("");
+    $("#verdict").html("");
     await renderTests((res)=>{renderVerdict(res);})
 }
 async function renderTests(callback) {
@@ -45,7 +46,6 @@ async function renderTests(callback) {
     await renderTest(29, "?n=-5&op=!", "n parameter must be an integer > 0",(res)=>{if(res == "Error") nbErreur+=1;});
     await renderTest(30, "?x=", "'op' parameter is missing",(res)=>{if(res == "Error") nbErreur+=1; callback(nbErreur);});
     
-    console.log("Avant callbacck : ",nbErreur);
     callback(nbErreur);
 }
 async function renderTest(id, queryString, valueServeur, callback) {
